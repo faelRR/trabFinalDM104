@@ -27,6 +27,15 @@ app.listen(8089 ,function(){
     console.log('Trabalho final DM104 - INATEL [INICIADO]');
 });
 
+// libera o CORS
+app.all('/*', function(req, res, next) {
+	res.status(200);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods","POST, GET, OPTIONS, DELETE, PUT, HEAD");
+	next();
+});
+
 // acessando o / retorna um status , poderia ser o WSDL
 app.get('/',function(req , res){
     res.status(200).send('Trabalho final DM104 - INATEL');
