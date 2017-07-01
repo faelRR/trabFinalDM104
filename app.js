@@ -11,6 +11,7 @@ var connection = require ('./CONTROLLER/connection.js');
 const urlClientes   = "cliente"; 
 const urlVendas     = "venda";
 const urlFilmes     = "filme";
+const urlRelatorio  = "relatorio";
 
 // cria o express e usa o parser como json
 var app = express();
@@ -66,6 +67,14 @@ app.get('/' + urlFilmes ,function(req , res){
     });  
 });
 
+app.get('/' + urlRelatorio , function(req , res){
+    var sql = "SELECT dm104.vendas.idFilme , count(*) FROM dm104.vendas group by dm104.vendas.idFilme LIMIT 5;"; 
+    resultado = connection.con.query(sql, function (err, rows, fields) {        
+        if (err) throw "Falha no relatorio == > " + err;     
+        res.status(200).send( rows ) ;
+    });    
+});
+
 
 // --- funcoes do GET por id --- //
 app.get('/'+urlVendas+'/:id' , function(req, res){
@@ -91,7 +100,6 @@ app.get('/'+urlClientes+'/:id' , function(req, res){
         res.status(200).send( rows ) ;
     });
 });
-
 
 // --- funcoes do POST --- // 
 //    deve ser enviado [{"key":"Content-Type","value":"application/json","description":""}]
